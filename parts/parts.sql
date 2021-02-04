@@ -1,6 +1,6 @@
-drop database if exists ehar_parts_and_suppliers;
-create database ehar_parts_and_suppliers;
-\c ehar_parts_and_suppliers
+drop database if exists cslabtes_parts_and_suppliers;
+create database cslabtes_parts_and_suppliers;
+\c cslabtes_parts_and_suppliers
 drop table if exists shipments;
 drop table if exists supplier;
 drop table if exists parts;
