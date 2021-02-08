@@ -1,6 +1,10 @@
 import psycopg2
 import getpass
 
+# TODO refactor this in to a connection class
+class PartDBConnection:
+    pass
+
 def connect_parts():
 
     # name of the database connecting to
@@ -23,6 +27,7 @@ def connect_parts():
         print("Cannot open credential file")
         exit(1)
 
+    # Watchout, password visible in debugger
     passwd = pgpass_file.readline()
     if len(passwd) == 0:
         print("Cannot open credential file")
@@ -50,10 +55,55 @@ def connect_parts():
 
     return conn
 
+def print_menu():
+    # FIXME make sure user enters valid option
+    # FIXME have function return the option
+    print("1) Lookup part by name")
+    print("2) Lookup part by part number")
+    print("Q) Quit")
+
+def get_parts_by_name(conn):
+
+    cmd = "select * from parts where %s = lower(pname);"
+    pname = input("Enter part name: ")
+    pname = pname.lower().strip()
+
+    # get a cursor to execute the query
+    # TODO try-except these calls to catch exceptions
+    cur = conn.cursor()
+    cur.execute(cmd, (pname,) )
+
+    # cursors are iterable
+    # a cursor is like a reference/pointer/location
+    # a cursors keeps a reference to a row in the
+    # ResultSet (the set of rowqs from a query).
+    for row in cur:
+        print(row)
+
+
+
 # M a i n    P r o g r a m
+# double underscore names and functions
+# dunder
 if __name__ == "__main__":
     conn = connect_parts()
-    pass
 
+    # Assumption: We have a valid connection
+    # Watchout, cannot assume connections stays valid
+    # Keep checking the closed attribute on conn
 
+    while True:
+        print_menu()
+        option = input("Enter menu option:")
 
+        if option == '1':
+            get_parts_by_name(conn)
+        elif option in ['Q','q']:
+            exit()
+
+"""
+What options should we provide the user.
+1) Put yourself in the shoea of the customer
+2) analyze the domain (parts)
+3) interview potential users and customers 
+"""
