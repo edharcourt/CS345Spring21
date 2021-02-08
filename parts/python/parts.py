@@ -45,13 +45,15 @@ def connect_parts():
             password = passwd
         )
     except psycopg2.Error as e:
-        print("Cannot connect {0}".format(e.pgerror))
+        print(e)
         exit(1)
 
     return conn
 
 # M a i n    P r o g r a m
 if __name__ == "__main__":
+    conn = connect_parts()
+    pass
 
 
 

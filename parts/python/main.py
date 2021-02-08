@@ -46,7 +46,6 @@ def print_menu():
     print("2) Lookup part by part number")
     print("Q)uit")
 
-
 done = False
 while not done:
     print_menu()
@@ -54,12 +53,12 @@ while not done:
 
     if option == '1':
         name = input("Enter name: ")
-        # cmd = "SELECT * FROM student where lower(name) like '%" + name.lower() + '%\'' + ';'
         #cmd = "SELECT * FROM parts where lower(pname) like %s"
         cmd = "SELECT * FROM parts where lower(pname) like %s"
 
         cur = conn.cursor()  # a cursor allows you to execute queries.
         cur.execute(cmd, (name.strip().lower(),))
+
         conn.commit()  # <- only necessary if modifying database
         for row in cur:
             print(row)
