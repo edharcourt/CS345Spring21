@@ -70,15 +70,41 @@ def get_parts_by_name(conn):
 
     # get a cursor to execute the query
     # TODO try-except these calls to catch exceptions
-    cur = conn.cursor()
-    cur.execute(cmd, (pname,) )
+    try:
+        cur = conn.cursor()
+        cur.execute(cmd, (pname,) )
+    except psycopg2.Error as e:
+        print(e)
+        return
 
     # cursors are iterable
     # a cursor is like a reference/pointer/location
     # a cursors keeps a reference to a row in the
-    # ResultSet (the set of rowqs from a query).
+    # ResultSet (the set of rows from a query).
     for row in cur:
         print(row)
+
+def get_part_by_pno(conn):
+    pno = input("Enter part number: ")
+    pno = pno.lower().strip()
+
+    cmd = "select * from parts where pno = " + pno
+
+    # 6;insert into parts values (7,'Fudge','Mauve',9999,'Alcatraz')
+
+    try:
+        cur = conn.cursor()
+        cur.execute(cmd)
+    except psycopg2.Error as e:
+        print(e)
+        return
+
+    if cur.rowcount == 0:
+        print("No part found with part number {0}".format(pno))
+        return
+
+    print(cur.fetchone())
+
 
 
 
@@ -87,6 +113,7 @@ def get_parts_by_name(conn):
 # dunder
 if __name__ == "__main__":
     conn = connect_parts()
+    conn.set_session(autocommit=True)
 
     # Assumption: We have a valid connection
     # Watchout, cannot assume connections stays valid
@@ -98,6 +125,8 @@ if __name__ == "__main__":
 
         if option == '1':
             get_parts_by_name(conn)
+        elif option == '2':
+            get_part_by_pno(conn)
         elif option in ['Q','q']:
             exit()
 
