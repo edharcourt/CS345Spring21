@@ -9,5 +9,7 @@ table = [["Sun",696000,1989100000],
 
 print(tabulate(table))
 
-print(tabulate(table, headers=["Planet","R (km)", "mass (x 10^29 kg)"],
+print(tabulate(table,
+               headers=["Planet","R (km)",
+                        "mass (x 10^29 kg)"],
                tablefmt = 'psql'))
