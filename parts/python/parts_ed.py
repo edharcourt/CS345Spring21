@@ -53,8 +53,6 @@ def connect_parts():
         print(e)
         exit(1)
 
-    # TODO Why are we doing this! Is it OK
-    conn.set_session(autocommit = True) # ???
     return conn
 
 def print_menu():
@@ -86,36 +84,36 @@ def get_parts_by_name(conn):
     for row in cur:
         print(row)
 
-def get_part_by_pno(conn) -> None:
-
-    pno = input("Enter a part number:")
+def get_part_by_pno(conn):
+    pno = input("Enter part number: ")
     pno = pno.lower().strip()
 
-    # TODO sanitize inputs and only allow an integer
-
-    # Bad!!!!! Never use string concatenation to build
-    # queries. Susceptible to an SQL Injection Attack
-    # 6;insert into parts values (7,'Fudge', 'Mauve',9999,'Alcatraz')
     cmd = "select * from parts where pno = " + pno
-    cmd = "select * from parts where pno = %s"
 
-    # TODO try-except
-    cur = conn.cursor()
-    #cur.execute(cmd)
-    cur.execute(cmd, (pno,))  # avoid injection attack
+    # 6;insert into parts values (7,'Fudge','Mauve',9999,'Alcatraz')
 
-    if cur.rowcount == 0:
-        print("Part {0} not found ".format(pno))
+    try:
+        cur = conn.cursor()
+        cur.execute(cmd)
+    except psycopg2.Error as e:
+        print(e)
         return
 
-    # what is true here?
+    if cur.rowcount == 0:
+        print("No part found with part number {0}".format(pno))
+        return
+
     print(cur.fetchone())
+
+
+
 
 # M a i n    P r o g r a m
 # double underscore names and functions
 # dunder
 if __name__ == "__main__":
     conn = connect_parts()
+    conn.set_session(autocommit=True)
 
     # Assumption: We have a valid connection
     # Watchout, cannot assume connections stays valid
