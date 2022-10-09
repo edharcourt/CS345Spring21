@@ -1,0 +1,12 @@
+1,Nut,Red,12.9,London,376,1,Smith,20,London
+2,Bolt,Green,17.8,Paris,289,1,Smith,20,London
+3,Screw,Blue,17.1,Oslo,400,1,Smith,20,London
+4,Screw,Red,14.02,London,204,1,Smith,20,London
+5,Cam,Blue,12.78,Paris,177,1,Smith,20,London
+6,Cog,Red,19.2,London,100,1,Smith,20,London
+1,Nut,Red,12.9,London,399,2,Jones,10,Paris
+2,Bolt,Green,17.8,Paris,409,2,Jones,10,Paris
+2,Bolt,Green,17.8,Paris,200,3,Blake,30,Paris
+2,Bolt,Green,17.8,Paris,222,4,Clark,20,London
+4,Screw,Red,14.02,London,323,4,Clark,20,London
+5,Cam,Blue,12.78,Paris,403,4,Clark,20,London
